@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       		http://www.springframework.org/schema/beans/spring-beans.xsd"
+       >
+    <!-- 生产者 -->
+    <bean id="rocketMqProducer" class="com.cold.tutorial.rocketmq.MQProducer" init-method="init" destroy-method="destory">
+        <property name="namesrvAddr" value="10.201.1.24:9876"/>
+        <property name="producerGroup" value="LogProducer"/>
+    </bean>
+
+    <bean id="consumer" class="com.cold.tutorial.rocketmq.MQConsumer" init-method="init" destroy-method="destory">
+        <property name="consumerGroup" value="PushConsumer"/>
+        <property name="namesrvAddr" value="10.201.1.24:9876" />
+        <property name="topic" value="PushTopic"/>
+        <property name="subExpression" value="push"/>
+        <property name="rocketMqMessageListener" ref="rocketMqListener"/>
+    </bean>
+
+    <bean id="rocketMqListener" class="com.cold.tutorial.rocketmq.SimpleRocketMqListener">
+    </bean>
+</beans>

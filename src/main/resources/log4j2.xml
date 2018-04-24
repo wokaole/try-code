@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug">
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="RollingFile" fileName="d:/logs/message-admin.log" filePattern="d:/logs/message-admin-%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} %class{36} - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB"/>
+            </Policies>
+            <DefaultRolloverStrategy fileIndex="min" min="1" max="30"/>
+        </RollingFile>
+
+        <RollingFile name="ErrorRollingFile" fileName="d:/logs/message-admin-error.log" filePattern="d:/logs/message-admin-error-%i.log">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} %class{36} - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB"/>
+            </Policies>
+            <DefaultRolloverStrategy fileIndex="min" min="1" max="30"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.feidee.message" level="debug">
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="ErrorRollingFile"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
